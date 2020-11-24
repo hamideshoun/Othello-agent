@@ -52,9 +52,9 @@ pygame.init()
 
 screen = pygame.display.set_mode(screen_size)
 
-bg = pygame.image.load("board.png")
-black_disk_pic = pygame.image.load("black.png")
-white_disk_pic = pygame.image.load("white.png")
+bg = pygame.image.load("assets/img/board.png")
+black_disk_pic = pygame.image.load("assets/img/black.png")
+white_disk_pic = pygame.image.load("assets/img/white.png")
 
 
 #GAME LOOP:
