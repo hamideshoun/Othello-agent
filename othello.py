@@ -46,8 +46,8 @@ class Game:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 insert_j = (mouse_x - 26) // 70
                 insert_i = (mouse_y - 26) // 70
-                print(insert_i, insert_j)
-                self.board.handle_board_changes((insert_i, insert_j))
+                white, black = self.board.handle_board_changes((insert_i, insert_j))
+                print(white, black)
 
     def run(self):
         while True:

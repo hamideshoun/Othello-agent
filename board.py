@@ -18,6 +18,8 @@ class Board:
         self.board_arr[3][4].color = 'black'
         self.board_arr[4][3].color = 'black'
         self.board_arr[4][4].color = 'white'
+        self.white = 0
+        self.black = 0
 
     def get_opponent(self, player):
         turn = player
@@ -91,10 +93,12 @@ class Board:
 
     def handle_board_changes(self, position):
         if position not in self.get_selectable_index(self.player):
-            return
+            return self.white, self.black
         self.set_color(position)
         self.make_flip(position)
         self.change_player()
+        self.calculate_winner()
+        return self.white, self.black
         # for i in range(8):
         #     for j in range(8):
         #         print(self.board_arr[i][j].color, end=' ')
@@ -163,3 +167,19 @@ class Board:
                 if i in range(8) and j in range(8) and self.board_arr[i][j].color == self.player:
                     return row, column
         return ()
+
+    def calculate_winner(self):
+        white = 0
+        black = 0
+        for i in range(8):
+            for j in range(8):
+                if self.board_arr[i][j].color == 'black':
+                    black += 1
+                elif self.board_arr[i][j].color == 'white':
+                    white += 1
+        self.white = white
+        self.black = black
+
+    @property
+    def is_game_finished(self):
+        return self.get_selectable_index(self.player) or self.get_selectable_index(self.get_opponent(self.player))
