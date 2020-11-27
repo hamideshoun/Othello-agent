@@ -11,6 +11,8 @@ class Game:
         self.board_size = 8
         self.screen_size = 600, 600
         self.board = Board(self.board_size)
+        self.menu_activated = False
+        self.finished = False
         self.screen = pygame.display.set_mode(self.screen_size)
         self.bg = pygame.image.load("assets/img/board.png")
         self.black_disk_pic = pygame.image.load("assets/img/black.png")
@@ -19,6 +21,7 @@ class Game:
         self.black_disk_pic_hint = pygame.image.load("assets/img/black2.png")
         self.menu_icon = pygame.image.load("assets/img/menu_icon.png")
         self.menu = pygame.image.load("assets/img/menu.png")
+        self.GAME_FONT = pygame.font.Font("freesansbold.ttf", 24)
 
     def render_board(self):
         for i in range(self.board_size):
@@ -33,6 +36,12 @@ class Game:
                     elif self.board.player == 'white':
                         self.screen.blit(self.white_disk_pic_hint, (self.board.board_arr[i][j].x, self.board.board_arr[i][j].y))
         self.screen.blit(self.menu_icon, (492, 7))
+        if self.menu_activated:
+            self.screen.blit(self.menu, (200, 200))
+        black_score = self.GAME_FONT.render("Black: {}".format(self.board.black), False, (0, 0, 0))
+        white_score = self.GAME_FONT.render("White: {}".format(self.board.white), False, (0, 0, 0))
+        self.screen.blit(black_score, (180, 550))
+        self.screen.blit(white_score, (320, 550))
 
     def handle_event(self):
         for event in pygame.event.get():
@@ -49,8 +58,25 @@ class Game:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 insert_j = (mouse_x - 60) // 60
                 insert_i = (mouse_y - 60) // 60
-                white, black = self.board.handle_board_changes((insert_i, insert_j))
-                print(white, black)
+                print(insert_i, insert_j)
+
+                if self.menu_activated:
+                    if insert_i == 3 and insert_j in [3, 4] and not self.finished:
+                        self.menu_activated = False
+                    elif insert_i == 4 and insert_j in [3, 4]:
+                        del self.board
+                        self.board = Board(self.board_size)
+                        self.menu_activated = False
+                else:
+                    if insert_i == -1 and insert_j == 7:
+                        self.menu_activated = True
+                    elif 0 <= insert_j < 8 and 0 <= insert_i < 8:
+                        white, black = self.board.handle_board_changes((insert_i, insert_j))
+                        if self.board.is_game_finished:
+                            self.menu_activated = True
+                            self.finished = True
+                            print("finished white: {}, black: {}".format(white, black))
+
     def run(self):
         while True:
             self.screen.blit(self.bg, (0, 0))

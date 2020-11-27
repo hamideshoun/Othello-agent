@@ -18,8 +18,8 @@ class Board:
         self.board_arr[3][4].color = 'black'
         self.board_arr[4][3].color = 'black'
         self.board_arr[4][4].color = 'white'
-        self.white = 0
-        self.black = 0
+        self.white = 2
+        self.black = 2
 
     def get_opponent(self, player):
         turn = player
@@ -110,7 +110,9 @@ class Board:
         for i in range(8):
             for j in range(8):
                 if self.board_arr[i][j].color == 'none':
-                    pos_list.append(self.lookup(i, j, color=player))
+                    lookup = self.lookup(i, j, color=player)
+                    if lookup:
+                        pos_list.append(lookup)
 
         return set(pos_list)
 
@@ -182,4 +184,4 @@ class Board:
 
     @property
     def is_game_finished(self):
-        return self.get_selectable_index(self.player) or self.get_selectable_index(self.get_opponent(self.player))
+        return not self.get_selectable_index(self.player) and not self.get_selectable_index(self.get_opponent(self.player))
