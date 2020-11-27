@@ -17,6 +17,8 @@ class Game:
         self.white_disk_pic = pygame.image.load("assets/img/white.png")
         self.white_disk_pic_hint = pygame.image.load("assets/img/white2.png")
         self.black_disk_pic_hint = pygame.image.load("assets/img/black2.png")
+        self.menu_icon = pygame.image.load("assets/img/menu_icon.png")
+        self.menu = pygame.image.load("assets/img/menu.png")
 
     def render_board(self):
         for i in range(self.board_size):
@@ -30,6 +32,7 @@ class Game:
                         self.screen.blit(self.black_disk_pic_hint, (self.board.board_arr[i][j].x, self.board.board_arr[i][j].y))
                     elif self.board.player == 'white':
                         self.screen.blit(self.white_disk_pic_hint, (self.board.board_arr[i][j].x, self.board.board_arr[i][j].y))
+        self.screen.blit(self.menu_icon, (492, 7))
 
     def handle_event(self):
         for event in pygame.event.get():
@@ -44,11 +47,10 @@ class Game:
             # MOUSE CLICK:
             elif event.type == MOUSEBUTTONDOWN:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
-                insert_j = (mouse_x - 26) // 70
-                insert_i = (mouse_y - 26) // 70
+                insert_j = (mouse_x - 60) // 60
+                insert_i = (mouse_y - 60) // 60
                 white, black = self.board.handle_board_changes((insert_i, insert_j))
                 print(white, black)
-
     def run(self):
         while True:
             self.screen.blit(self.bg, (0, 0))

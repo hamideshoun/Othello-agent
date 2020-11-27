@@ -12,7 +12,7 @@ class Disk:
 class Board:
     def __init__(self, board_size):
         self.player = 'black'
-        self.board_arr = [[Disk('none', 26 + (i * 70), 26 + (j * 70), False) for i in range(board_size)] for j in
+        self.board_arr = [[Disk('none', 65 + (i * 60), 65 + (j * 60), False) for i in range(board_size)] for j in
                           range(board_size)]
         self.board_arr[3][3].color = 'white'
         self.board_arr[3][4].color = 'black'
