@@ -3,6 +3,7 @@ import sys
 import pygame.mixer
 from pygame.locals import *
 from board import Board
+from AI import State, minimax, select_action
 
 
 class Game:
@@ -71,11 +72,28 @@ class Game:
                     if insert_i == -1 and insert_j == 7:
                         self.menu_activated = True
                     elif 0 <= insert_j < 8 and 0 <= insert_i < 8:
-                        white, black = self.board.handle_board_changes((insert_i, insert_j))
-                        if self.board.is_game_finished:
-                            self.menu_activated = True
-                            self.finished = True
-                            print("finished white: {}, black: {}".format(white, black))
+                        if self.board.player == 'black':
+                            white, black = self.board.handle_board_changes((insert_i, insert_j))
+                            if self.board.is_game_finished:
+                                self.menu_activated = True
+                                self.finished = True
+                                print("finished white: {}, black: {}".format(white, black))
+                        elif self.board.player == 'white':
+                            # print("FUCK U")
+                            import time
+                            state = State()
+                            print("sdfsdfsdfsdfsd" )
+                            start_time = time.time()
+                            state.board = self.board
+                            minimax(state, True, 5, -10000000, 10000000)
+                            print(time.time() - start_time)
+                            next_state = select_action(state)
+                            insert_i = next_state[1][0]
+                            insert_j = next_state[1][1]
+                            # print(insert_i, insert_j)
+                            insert = (insert_i, insert_j)
+                            self.board.handle_board_changes(insert)
+
 
     def run(self):
         while True:
