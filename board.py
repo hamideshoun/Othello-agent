@@ -21,6 +21,19 @@ class Board:
         self.white = 2
         self.black = 2
 
+    def create_hash(self, player):
+        board_arr = []
+        for row in self.board_arr:
+            temp_row = []
+            for col in row:
+                temp_row.append(col.color)
+            board_arr.append(temp_row)
+        hash_board = hash(tuple(map(tuple, board_arr)))
+        if player:
+            return hash_board
+        else:
+            return -hash_board
+
     def get_opponent(self, player):
         turn = player
         if turn == 'black':
