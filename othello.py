@@ -85,7 +85,7 @@ class Game:
                             print("sdfsdfsdfsdfsd" )
                             start_time = time.time()
                             state.board = self.board
-                            minimax(state, True, 5, -10000000, 10000000)
+                            minimax(state, True, 10, -10000000, 10000000)
                             print(time.time() - start_time)
                             next_state = select_action(state)
                             insert_i = next_state[1][0]

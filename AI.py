@@ -2,6 +2,7 @@ from board import Board
 import copy
 import time
 
+
 class State:
     def __init__(self):
         self.board = Board(8)
@@ -25,7 +26,7 @@ def minimax(state, turn, depth, alpha, beta):
             state.next_states.append([child_state, action])
             # calculating heuristic of child state
             temp_eval = minimax(child_state, False, depth-1, alpha, beta)
-            max_eval = max(max_eval, temp_eval)
+            max_eval = max(max_eval, max_eval)
             # pruning
             alpha = max(alpha, temp_eval)
             if alpha >= beta:
@@ -50,7 +51,7 @@ def minimax(state, turn, depth, alpha, beta):
             temp_eval = minimax(child_state, True, depth-1, alpha, beta)
             min_eval = min(min_eval, temp_eval)
             # pruning
-            beta = max(beta, temp_eval)
+            beta = min(beta, min_eval)
             if alpha >= beta:
                 break
         # assigning minimum heuristic of children to heuristic of parent state
@@ -60,6 +61,8 @@ def minimax(state, turn, depth, alpha, beta):
 
 
 def select_action(state):
+    if not state.next_states:
+        return
     next_state = state.next_states[0]
     for ns in state.next_states:
         if ns[0].heuristic > next_state[0].heuristic:
