@@ -45,6 +45,32 @@ class Game:
         self.screen.blit(white_score, (320, 550))
 
     def handle_event(self):
+        if self.board.player == 'white':
+            # print("FUCK U")
+            import time
+            state = State()
+            print("sdfsdfsdfsdfsd")
+            start_time = time.time()
+            state.board = self.board
+            minimax(state, True, 5, -10000000, 10000000)
+            State.all_states = dict()
+            print(time.time() - start_time)
+            try:
+                next_state = select_action(state)
+                insert_i = next_state[1][0]
+                insert_j = next_state[1][1]
+                # print(insert_i, insert_j)
+                insert = (insert_i, insert_j)
+                white, black = self.board.handle_board_changes(insert)
+                if self.board.is_game_finished:
+                    self.menu_activated = True
+                    self.finished = True
+                    print("finished white: {}, black: {}".format(white, black))
+            except:
+                print('err')
+
+
+
         for event in pygame.event.get():
             # QUIT:
             if event.type == pygame.QUIT:
@@ -78,22 +104,22 @@ class Game:
                                 self.menu_activated = True
                                 self.finished = True
                                 print("finished white: {}, black: {}".format(white, black))
-                        elif self.board.player == 'white':
-                            # print("FUCK U")
-                            import time
-                            state = State()
-                            print("sdfsdfsdfsdfsd" )
-                            start_time = time.time()
-                            state.board = self.board
-                            minimax(state, True, 5, -10000000, 10000000)
-                            State.all_states = dict()
-                            print(time.time() - start_time)
-                            next_state = select_action(state)
-                            insert_i = next_state[1][0]
-                            insert_j = next_state[1][1]
-                            # print(insert_i, insert_j)
-                            insert = (insert_i, insert_j)
-                            self.board.handle_board_changes(insert)
+                        # elif self.board.player == 'white':
+                        #     # print("FUCK U")
+                        #     import time
+                        #     state = State()
+                        #     print("sdfsdfsdfsdfsd" )
+                        #     start_time = time.time()
+                        #     state.board = self.board
+                        #     minimax(state, True, 5, -10000000, 10000000)
+                        #     State.all_states = dict()
+                        #     print(time.time() - start_time)
+                        #     next_state = select_action(state)
+                        #     insert_i = next_state[1][0]
+                        #     insert_j = next_state[1][1]
+                        #     # print(insert_i, insert_j)
+                        #     insert = (insert_i, insert_j)
+                        #     self.board.handle_board_changes(insert)
 
 
     def run(self):

@@ -21,7 +21,7 @@ def minimax(state, turn, depth, alpha, beta):
     white_selectable = state.board.get_selectable_index('white')
     black_selectable = state.board.get_selectable_index('black')
     if depth == 0 or (not white_selectable and not black_selectable):
-        return state.board.white - state.board.black
+        return calculate_heuristic(state.board)
     if turn:
         actions = white_selectable
         max_eval = -10000
@@ -80,6 +80,58 @@ def select_action(state):
             next_state = ns
     print(next_state)
     return next_state
+
+
+def corners(board):
+    corner = 0
+    if board.board_arr[0][0].color == 'white':
+        corner += 1
+    if board.board_arr[0][7].color == 'white':
+        corner += 1
+    if board.board_arr[7][0].color == 'white':
+        corner += 1
+    if board.board_arr[7][7].color == 'white':
+        corner += 1
+    if board.board_arr[0][0].color == 'black':
+        corner -= 1
+    if board.board_arr[0][7].color == 'black':
+        corner -= 1
+    if board.board_arr[7][0].color == 'black':
+        corner -= 1
+    if board.board_arr[7][7].color == 'black':
+        corner -= 1
+    return corner
+
+
+def borders(board):
+    border = 0
+    for i in range(0, 8):
+        if board.board_arr[0][i].color == 'white':
+            border += 1
+        if board.board_arr[0][i].color == 'black':
+            border -= 1
+        if board.board_arr[7][i].color == 'white':
+            border += 1
+        if board.board_arr[7][i].color == 'black':
+            border -= 1
+
+    for j in range(0, 8):
+        if board.board_arr[j][0].color == 'white':
+            border += 1
+        if board.board_arr[j][0].color == 'black':
+            border -= 1
+        if board.board_arr[j][7].color == 'white':
+            border += 1
+        if board.board_arr[j][7].color == 'black':
+            border -= 1
+    return border
+
+
+def calculate_heuristic(board):
+    f = board.white - board.black
+    g = corners(board)
+    h = borders(board)
+    return f + g + h
 
 
 
