@@ -110,7 +110,7 @@ class Board:
         self.set_color(position)
         self.make_flip(position)
         self.change_player()
-        if len(self.get_selectable_index(self.player))==0:
+        if len(self.get_selectable_index(self.player)) == 0:
             self.change_player()
         self.calculate_winner()
         return self.white, self.black

@@ -3,7 +3,7 @@ import sys
 import pygame.mixer
 from pygame.locals import *
 from board import Board
-from AI import State, minimax, select_action
+from AI import Agent, select_action
 
 
 class Game:
@@ -48,15 +48,15 @@ class Game:
         if self.board.player == 'white':
             # print("FUCK U")
             import time
-            state = State()
+            state = Agent()
             print("sdfsdfsdfsdfsd")
             start_time = time.time()
             state.board = self.board
-            minimax(state, True, 5, -10000000, 10000000)
-            State.all_states = dict()
+            state.minimax(True, 5, -10000000, 10000000)
+            Agent.all_states = dict()
             print(time.time() - start_time)
             try:
-                next_state = select_action(state)
+                next_state = select_action(state, 'white')
                 insert_i = next_state[1][0]
                 insert_j = next_state[1][1]
                 # print(insert_i, insert_j)
